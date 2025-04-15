@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SWAB</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel=" stylesheet " href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css " />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap " rel="stylesheet " />
+    <style>
+        body {
+            padding-top: 60px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar {
+            box-shadow: 0 4px 8px rgba(112, 104, 92, 0.5);
+        }
+        
+        .navbar .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .sidebar {
+            margin-left: 30px;
+            width: 250px;
+            height: 100vh;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+        }
+        
+        .sidebar h6 {
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #5d5d5d;
+        }
+        
+        .sidebar a {
+            text-decoration: none;
+            color: #5d5d5d;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+        }
+        
+        .sidebar .submenu a:hover {
+            color: #000;
+        }
+        
+        .submenu a {
+            font-size: 14px;
+            margin-left: 17px;
+            color: #5d5d5d;
+        }
+        
+        .sidebar p {
+            font-size: 13px;
+        }
+        
+        .logout-container {
+            text-align: center;
+        }
+        
+        .logout-btn {
+            background-color: #eb1907;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border: none;
+            width: 80%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .logout-btn:hover {
+            background: #bb1a1a;
+        }
+        
+        .content {
+            margin-left: 280px;
+            padding-top: 50px;
+            padding-left: 50px;
+            padding-right: 50px;
+            padding-bottom: 20px;
+        }
+        
+        .card {
+            font-size: 10px;
+            ;
+        }
+        
+        .newartikel-btn {
+            background-color: #eb1907;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .newartikel-btn:hover {
+            background: #bb1a1a;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white fixed-top ">
+        <div class="container ">
+            <!-- Logo -->
+            <a class="navbar-brand " href="# ">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" width="40" />
+                <strong>SAWB</strong>
+            </a>
+
+            <!-- Tombol Icon Artikel dan Profile -->
+            <div class="d-flex align-items-center ">
+                <img src="static/images/ " alt="Profile " class="profile-img " />
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar Selesai -->
+
+    <!-- Sidebar -->
+    <div class="sidebar ">
+        <div>
+            <h6>HOME</h6>
+            <a href="{% url 'admin-dashboard' %}"> <i class="bi bi-house-door "></i> Dashboard </a>
+            <h6>CONTENT</h6>
+            <div class="accordion " id="accordionSidebar ">
+                <div class="accordion-item border-0 ">
+                    <h2 class="accordion-header ">
+                        <a href="# " class="accordion-toggle d-flex align-items-center p-2 text-decoration-none " data-bs-toggle="collapse " data-bs-target="#collapseArticle " aria-expanded="true ">
+                            <i class="bi me-2 chevron-icon "></i>
+                            <i class="bi bi-file-text "></i> Article
+                        </a>
+                    </h2>
+                    <div id="collapseArticle " class="accordion-collapse collapse show ">
+                        <div class="accordion-body p-0 submenu ">
+                            <a href="{% url 'add_article' %}" class="d-block ps-4 text-secondary">Add New</a>
+                            <a href="{% url 'all-article' %}" class="d-block ps-4 text-secondary">All Articles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <form action="{% url 'admin-logout' %}" method="post">
+                {% csrf_token %}
+                <p class="mt-4 text-secondary">Log out dari page admin?</p>
+                <button type="submit" class="logout-btn">Log Out</button>
+            </form>
+        </div>
+    </div>
+    <!-- Sidebar Selesai -->
+
+    <!-- All Articles -->
+    <div class="content ">
+        <h2 class="fw-bold ">Artikel</h2>
+        <p>Halo, admin SAWB!</p>
+
+        <!-- Card Tabel Artikel -->
+        <div class="card ">
+            <div class="card-body ">
+                <div class="d-flex justify-content-between align-items-center mb-3 ">
+                    <a href="{% url 'add_article' %} " class="newartikel-btn ">Buat artikel baru</a>
+                    <input type="text" class="form-control w-25" placeholder="Cari artikel..." name="q" value="{{ query }}">
+                </div>
+
+                <!-- Tabel Artikel -->
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle text-center">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Thumbnail</th>
+                                <th>Judul</th>
+                                <th>Kategori</th>
+                                <th>Status</th>
+                                <th>Telah Terbit</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for article in page_obj %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><img src="{{ article.thumbnail.url }}" alt="Thumbnail" width="50"></td>
+                                <td>{{ article.title }}</td>
+                                <td>{{ article.category }}</td>
+                                <td>
+                                    {% if article.status == 'published' %}
+                                    <span class="badge bg-success">Terbit</span> {% else %}
+                                    <span class="badge bg-danger">Draft</span> {% endif %}
+                                </td>
+                                <td>{{ article.published_date }}</td>
+                                <td>
+                                    <a href="{% url 'article' article.id %}" class="text-primary"><i class="bi bi-eye"></i></a>
+                                    <a href="{% url 'add_article' article.id %}" class="text-warning ms-2"><i class="bi bi-pencil"></i></a>
+                                    <a href="{% url 'delete_article' article.id %}" class="text-danger ms-2" onclick="return confirm('Apakah Anda yakin ingin menghapus artikel ini?');">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <nav>
+                    <ul class="pagination justify-content-end">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">&laquo;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        </li>
+                        {% endif %}
+
+                        <li class="page-item active">
+                            <a class="page-link" href="#">{{ page_obj.number }}</a>
+                        </li>
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">»</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+
+                <!-- Halaman All Articles Selesai -->
+
+                <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        let accordionToggles = document.querySelectorAll('[data-bs-toggle="collapse "]');
+
+                        accordionToggles.forEach((toggle) => {
+                            let chevronIcon = toggle.querySelector('.bi');
+                            let targetId = toggle.getAttribute('data-bs-target') || toggle.getAttribute('href');
+                            let collapseElement = document.querySelector(targetId);
+
+                            if (!chevronIcon || !collapseElement) return;
+
+                            function updateChevron(isOpen) {
+                                chevronIcon.classList.toggle('bi-chevron-right', !isOpen);
+                                chevronIcon.classList.toggle('bi-chevron-down', isOpen);
+                            }
+
+                            updateChevron(collapseElement.classList.contains('show'));
+
+                            collapseElement.addEventListener('show.bs.collapse', () => updateChevron(true));
+                            collapseElement.addEventListener('hide.bs.collapse', () => updateChevron(false));
+                        });
+                    });
+                </script>
+                <script>
+                    document.addEventListener("DOMContentLoaded ", function() {
+                        const rowsPerPage = 10;
+                        const table = document.querySelector("table tbody ");
+                        const pagination = document.querySelector(".pagination ");
+                        const searchInput = document.querySelector('input[placeholder="Cari artikel . . "]');
+                        let currentPage = 1;
+                        let rows = Array.from(table.querySelectorAll("tr "));
+
+                        function displayRows(page) {
+                            const start = (page - 1) * rowsPerPage;
+                            const end = start + rowsPerPage;
+
+                            rows.forEach((row, index) => {
+                                row.style.display = index >= start && index < end ? " " : "none ";
+                            });
+                        }
+
+                        function setupPagination() {
+                            pagination.innerHTML = " ";
+
+                            const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+                            const createPageItem = (pageNumber) => {
+                                const li = document.createElement("li ");
+                                li.className = `page-item ${pageNumber === currentPage ? "active " : " "}`;
+                                li.innerHTML = `<a class="page-link " href="# ">${pageNumber}</a>`;
+                                li.addEventListener("click ", function(e) {
+                                    e.preventDefault();
+                                    currentPage = pageNumber;
+                                    displayRows(currentPage);
+                                    setupPagination();
+                                });
+                                return li;
+                            };
+
+                            pagination.appendChild(createPageItem(1));
+
+                            if (totalPages > 1) {
+                                for (let i = 2; i <= totalPages; i++) {
+                                    pagination.appendChild(createPageItem(i));
+                                }
+                            }
+                        }
+
+                        searchInput.addEventListener("keyup ", function() {
+                            const filter = searchInput.value.toLowerCase();
+
+                            rows.forEach(row => {
+                                const title = row.cells[2].textContent.toLowerCase();
+                                row.style.display = title.includes(filter) ? " " : "none ";
+                            });
+
+                            rows = Array.from(table.querySelectorAll("tr ")).filter(row => row.style.display === " ");
+                            currentPage = 1;
+                            displayRows(currentPage);
+                            setupPagination();
+                        });
+
+                        displayRows(currentPage);
+                        setupPagination();
+                    });
+                </script>
+</body>
+
+</html>

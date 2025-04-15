@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SAWB - Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+        }
+        
+        .login-container {
+            width: 900px;
+            max-width: 100%;
+            display: flex;
+            height: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .login-form {
+            flex: 1;
+            background-color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .login-form h2 {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .login-form img {
+            width: 80px;
+            margin-bottom: 40px;
+        }
+        
+        .login-form .form-control {
+            margin-bottom: 15px;
+        }
+        
+        .login-form .btn {
+            width: 100%;
+            background-color: #eb1907;
+            color: white;
+        }
+        
+        .login-form .btn:hover {
+            background-color: #bb1a1a;
+        }
+        
+        .login-image {
+            flex: 1;
+            background: #eb1907 url("{% static 'images/loginbg.png' %}") no-repeat center;
+            background-size: contain;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <!-- Bagian Form Login -->
+        <div class="login-form">
+            <h2>WELCOME BACK!</h2>
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+            <form method="post" action="{% url 'admin-login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_username">Username:</label>
+                    <input type="text" name="username" id="id_username" class="form-control" placeholder="Your Username" required>
+                </div>
+                <div class="form-group">
+                    <label for="id_password">Password:</label>
+                    <input type="password" name="password" id="id_password" class="form-control" placeholder="Your Password" required>
+                </div>
+                <div class="form-check text-start">
+                    <input type="checkbox" class="form-check-input" id="showPassword">
+                    <label class="form-check-label" for="showPassword">Show Password</label>
+                </div>
+                <button type="submit" class="btn mt-3">Log In</button> {% if error %}
+                <p style="color: red;">{{ error }}</p>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Bagian Gambar -->
+        <div class="login-image"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const showPasswordCheckbox = document.getElementById('showPassword');
+            const passwordField = document.getElementById('id_password');
+
+            showPasswordCheckbox.addEventListener('change', function() {
+                passwordField.type = this.checked ? 'text' : 'password';
+            });
+        });
+    </script>
+</body>
+
+</html>

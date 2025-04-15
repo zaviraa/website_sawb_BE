@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SWAB</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            padding-top: 60px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar {
+            box-shadow: 0 4px 8px rgba(112, 104, 92, 0.5);
+        }
+        
+        .navbar .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .sidebar {
+            margin-left: 30px;
+            width: 250px;
+            height: 100vh;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+        }
+        
+        .sidebar h6 {
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #5d5d5d;
+        }
+        
+        .sidebar a {
+            text-decoration: none;
+            color: #5d5d5d;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+        }
+        
+        .sidebar .submenu a:hover {
+            color: #000;
+        }
+        
+        .submenu a {
+            font-size: 14px;
+            margin-left: 17px;
+            color: #5d5d5d;
+        }
+        
+        .sidebar p {
+            font-size: 13px;
+        }
+        
+        .logout-container {
+            text-align: center;
+        }
+        
+        .logout-btn {
+            background-color: #eb1907;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border: none;
+            width: 80%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .logout-btn:hover {
+            background: #bb1a1a;
+        }
+        
+        .main-content {
+            margin-left: 270px;
+            padding-top: 50px;
+            padding-left: 100px;
+            padding-right: 100px;
+        }
+        
+        .dashboard-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-card img {
+            width: 100px;
+            display: block;
+            margin: 10px auto;
+        }
+        
+        .dashboard-card h5 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white fixed-top">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" width="40" />
+                <strong>SAWB</strong>
+            </a>
+
+            <!-- Tombol Icon Artikel dan Profile -->
+            <div class="d-flex align-items-center">
+                <img src="static/images/" alt="Profile" class="profile-img" />
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar Selesai -->
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <h6>HOME</h6>
+            <a href="#"> <i class="bi bi-house-door"></i> Dashboard </a>
+            <h6>CONTENT</h6>
+            <div class="accordion" id="accordionSidebar">
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header">
+                        <a href="#" class="accordion-toggle d-flex align-items-center p-2 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapseArticle" aria-expanded="true">
+                            <i class="bi me-2 chevron-icon"></i>
+                            <i class="bi bi-file-text"></i> Article
+                        </a>
+                    </h2>
+                    <div id="collapseArticle" class="accordion-collapse collapse show">
+                        <div class="accordion-body p-0 submenu">
+                            <a href="{% url 'add_article' %}" class="d-block ps-4 text-secondary">Add New</a>
+                            <a href="{% url 'all-article' %}" class="d-block ps-4 text-secondary">All Articles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <p class="mt-4 text-secondary ">Log out dari page admin?</p>
+            <button class="logout-btn ">Log Out</button>
+        </div>
+    </div>
+    <!-- Sidebar Selesai -->
+
+    <!-- Main Content -->
+    <div class="main-content ">
+        <h2 class="fw-bold ">Dashboard</h2>
+        <p>Halo, admin SAWB!</p>
+        <br>
+
+        <div class="dashboard-card ">
+            <h5>Selamat Datang!</h5>
+            <p>Kami telah menyiapkan tautan untuk memulai:</p>
+            <img src="static/images/ " alt="Illustration " />
+            <p class="fw-bold ">Tahap selanjutnya:</p>
+            <a href="{% url 'add_article' %}" class="d-flex align-items-center text-decoration-none ">
+                <i class="bi bi-file-text me-2 "></i> Add Article
+            </a>
+        </div>
+    </div>
+    <!-- Main Content Selesai -->
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %} "></script>
+    <script>
+        document.addEventListener("DOMContentLoaded ", function() {
+            let accordionToggle = document.querySelector('[data-bs-toggle="collapse "]');
+            let chevronIcon = accordionToggle.querySelector(".bi ");
+            let collapseElement = document.getElementById("collapseArticle ");
+
+            function updateChevron(isOpen) {
+                if (isOpen) {
+                    chevronIcon.classList.remove("bi-chevron-right ");
+                    chevronIcon.classList.add("bi-chevron-down ");
+                } else {
+                    chevronIcon.classList.remove("bi-chevron-down ");
+                    chevronIcon.classList.add("bi-chevron-right ");
+                }
+            }
+
+            updateChevron(collapseElement.classList.contains("show "));
+
+            collapseElement.addEventListener("show.bs.collapse ", function() {
+                updateChevron(true);
+            });
+
+            collapseElement.addEventListener("hide.bs.collapse ", function() {
+                updateChevron(false);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SWAB</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            padding-top: 60px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .navbar {
+            box-shadow: 0 4px 8px rgba(112, 104, 92, 0.5);
+        }
+        
+        .navbar .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .sidebar {
+            margin-left: 30px;
+            width: 250px;
+            height: 100vh;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+        }
+        
+        .sidebar h6 {
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #5d5d5d;
+        }
+        
+        .sidebar a {
+            text-decoration: none;
+            color: #5d5d5d;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+        }
+        
+        .sidebar .submenu a:hover {
+            color: #000;
+        }
+        
+        .submenu a {
+            font-size: 14px;
+            margin-left: 17px;
+            color: #5d5d5d;
+        }
+        
+        .sidebar p {
+            font-size: 13px;
+        }
+        
+        .logout-container {
+            text-align: center;
+        }
+        
+        .logout-btn {
+            background-color: #eb1907;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border: none;
+            width: 80%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .logout-btn:hover {
+            background: #bb1a1a;
+        }
+        
+        .content {
+            margin-left: 280px;
+            padding-top: 50px;
+            padding-left: 70px;
+            padding-right: 70px;
+            padding-bottom: 20px;
+        }
+        
+        .card {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-terbitkan {
+            background-color: #03DB20;
+            color: white;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 15px;
+            padding-right: 15px;
+            text-align: center;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        
+        .btn-terbitkan:hover {
+            background: #128400;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white fixed-top">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" width="40" />
+                <strong>SAWB</strong>
+            </a>
+
+            <!-- Tombol Icon Artikel dan Profile -->
+            <div class="d-flex align-items-center">
+                <img src="{% static 'images/profile.png' %}" alt="Profile" class="profile-img" />
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar Selesai -->
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <h6>HOME</h6>
+            <a href="{% url 'admin-dashboard' %}"> <i class="bi bi-house-door"></i> Dashboard </a>
+            <h6>CONTENT</h6>
+            <div class="accordion" id="accordionSidebar">
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header">
+                        <a href="#" class="accordion-toggle d-flex align-items-center p-2 text-decoration-none" data-bs-toggle="collapse" data-bs-target="#collapseArticle" aria-expanded="true">
+                            <i class="bi me-2 chevron-icon"></i>
+                            <i class="bi bi-file-text"></i> Article
+                        </a>
+                    </h2>
+                    <div id="collapseArticle" class="accordion-collapse collapse show">
+                        <div class="accordion-body p-0 submenu">
+                            <a href="{% url 'add_article' %}" class="d-block ps-4 text-secondary">Add New</a>
+                            <a href="{% url 'all-article' %}" class="d-block ps-4 text-secondary">All Articles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <form action="{% url 'admin-logout' %}" method="post">
+                {% csrf_token %}
+                <p class="mt-4 text-secondary">Log out dari page admin?</p>
+                <button type="submit" class="logout-btn">Log Out</button>
+            </form>
+        </div>
+    </div>
+    <!-- Sidebar Selesai -->
+
+    <!-- Content -->
+    <div class="content">
+        <h2><strong>Tambah Artikel</strong></h2>
+        <p>Tuliskan artikelmu di sini</p>
+        <div class="card p-4">
+            {% if messages %} {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+            {% endfor %} {% endif %}
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3"><label>Judul</label> {{ form.title }}
+                    <input type="text" name="title" class="form-control" placeholder="Judul" required />
+                </div>
+
+                <div class="mb-3">
+                    <label>Deskripsi Meta</label> {{ form.meta_description }}
+                    <input type="text" name="meta_description" class="form-control" placeholder="Meta Deskripsi" required />
+                </div>
+
+                <div class="mb-3">
+                    <label>Kategori</label> {{ form.category }}
+                    <select name="category" class="form-select" required>
+                        <option value="">Pilih kategori</option>
+                        <option value="Politik">Politik</option>
+                        <option value="Sosial">Sosial</option>
+                        <option value="Pertemuan">Pertemuan</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>Status</label> {{ form.status }}
+                    <select name="status" class="form-select" required>
+                        <option value="draft">Draft</option>
+                        <option value="published">Terbit</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>Thumbnail</label> {{ form.thumbnail }}
+                    <input type="file" name="thumbnail" id="thumbnailInput" class="form-control" accept="image/*" onchange="previewThumbnail(event)" />
+                </div>
+
+                <div class="mb-3">
+                    <img id="thumbnailPreview" src="#" alt="Preview Thumbnail" class="img-fluid d-none rounded" style="max-height: 200px;" />
+                </div>
+
+                <div class="mb-3">
+                    <label>Tanggal Publish</label> {{ form.published_at }} {{ form.published_at.as_hidden }}
+                    <input type="datetime-local" name="published_at" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label>Artikel</label> {{ form.content }}
+                    <textarea id="editor" name="content" class="form-control" rows="6" required></textarea>
+                </div>
+                <button type="submit" class="btn-terbitkan" id="submitBtn">Terbitkan</button>
+
+                <div id="loadingSpinner" class="spinner-border text-primary d-none" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Content Selesai -->
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %} "></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js "></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let accordionToggles = document.querySelectorAll('[data-bs-toggle="collapse "]');
+
+            accordionToggles.forEach((toggle) => {
+                let chevronIcon = toggle.querySelector('.bi');
+                let targetId = toggle.getAttribute('data-bs-target') || toggle.getAttribute('href');
+                let collapseElement = document.querySelector(targetId);
+
+                if (!chevronIcon || !collapseElement) return;
+
+                function updateChevron(isOpen) {
+                    chevronIcon.classList.toggle('bi-chevron-right', !isOpen);
+                    chevronIcon.classList.toggle('bi-chevron-down', isOpen);
+                }
+
+                updateChevron(collapseElement.classList.contains('show'));
+
+                collapseElement.addEventListener('show.bs.collapse', () => updateChevron(true));
+                collapseElement.addEventListener('hide.bs.collapse', () => updateChevron(false));
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let editorElement = document.querySelector('#editor');
+            if (editorElement) {
+                ClassicEditor.create(editorElement).catch((error) => console.error('CKEditor Error:', error));
+            }
+        });
+    </script>
+    <script>
+        function previewThumbnail(event) {
+            const input = event.target;
+            const preview = document.getElementById('thumbnailPreview');
+            const file = input.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('d-none');
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "# ";
+                preview.classList.add('d-none');
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitButton = document.getElementById('submitBtn');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+
+            if (submitButton && loadingSpinner) {
+                submitButton.addEventListener('click', function() {
+                    loadingSpinner.classList.remove('d-none');
+                    submitButton.disabled = true;
+                    // Optional: Tambah text ganti saat submit
+                    submitButton.innerHTML += ' Loading...';
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

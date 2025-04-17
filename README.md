@@ -1,3 +1,12 @@
+Nama Anggota :
+UI/UX Designer :
+1. Shasa Olivia Rose (06) 
+2. Wulan Putri Shafiqah (17)
+Backend :
+3. Zafira Alya Deyanti (22)
+Frontend :
+4. Zirlynaila Fairuzahwa (29)
+
 # SAWB (Sedulur Aspirasi Warga Banyumas)
 SAWB adalah sebuah website yang bertujuan untuk memberikan informasi dan platform bagi warga Banyumas untuk berbagi aspirasi dan berita terkini. Website ini dibangun menggunakan Django dan Bootstrap.
 
@@ -47,9 +56,9 @@ SAWB adalah sebuah website yang bertujuan untuk memberikan informasi dan platfor
     }
 }
 
-5. **Buat dan Terapkan Migrasi**:
+6. **Buat dan Terapkan Migrasi**:
     python manage.py makemigrations
     python manage.py migrate
 
-6. **Jalankan Server**:
+7. **Jalankan Server**:
     python manage.py runserver
